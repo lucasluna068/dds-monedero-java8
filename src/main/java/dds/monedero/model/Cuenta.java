@@ -30,7 +30,10 @@ public class Cuenta {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this); //CODESMELL (Misplaced Method) MISMO CASO EN MOVIMIENTO
+    //CODESMELL (Misplaced Method)
+    // El movimiento no deberia tener responsabilidad sobre los atributos de la cuenta.
+    saldo += cuanto;
+    agregarMovimiento(LocalDate.now(), cuanto, true);
   }
 
   public void sacar(double cuanto) {
@@ -45,7 +48,11 @@ public class Cuenta {
       throw new MaximoExtraccionDiarioException(
           "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite());
     }
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this); //CODESMELL (Misplaced Method) MISMO CASO EN MOVIMIENTO
+
+    //CODESMELL (Misplaced Method)
+    // El movimiento no deberia tener responsabilidad sobre los atributos de la cuenta.
+    saldo -= cuanto;
+    agregarMovimiento(LocalDate.now(), cuanto, false);
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {

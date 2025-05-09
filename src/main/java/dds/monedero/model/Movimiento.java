@@ -44,16 +44,9 @@ public class Movimiento {
     return !esDeposito;
   }
 
-  public void agregateA(Cuenta cuenta) {       // CODESMELL (Misplaced Method) POR QUE LE PASO EL METODO AL MOVIMIENTO SI SOLO UTILIZA CUENTA. SE LO PASO DIRECTO A CUENTA.
-    cuenta.setSaldo(calcularValor(cuenta));
-    cuenta.agregarMovimiento(fecha, monto, esDeposito);
-  }
 
-  public double calcularValor(Cuenta cuenta) { // CODESMELL (Misplaced Method) PARA QUE QUIERO ESTO SI EL SALDO FINAL SE PUEDE VER EN LA CUENTA DESPUES
-    if (esDeposito) {
-      return cuenta.getSaldo() + getMonto();
-    } else {
-      return cuenta.getSaldo() - getMonto();
-    }
-  }
+  // CODESMELL (Misplaced Method)
+  // Se eliminan estos dos metodos ya que es responsabilidad de la cuenta recalcular su saldo al poner
+  // y agregar un movimiento a su lista de movimientos. El movimiento no hace nada al respecto.
+
 }

@@ -15,11 +15,12 @@ public class Cuenta {
   private List<Movimiento> movimientos = new ArrayList<>();
 
   public Cuenta() {
-    saldo = 0;  // CODESMELL (Duplicated Code) para que inicializar el saldo en el constructor si ya lo inicializas con saldo 0.
+    saldo = 0;  // CODESMELL (Duplicated Code) para que inicializar un constructor si ya lo inicializas con saldo 0.
   }
 
   public Cuenta(double montoInicial) {
-    saldo = montoInicial;
+    saldo = montoInicial; // CODESMELL (Duplicated Code) para que inicializar un constructor si ya lo inicializas con saldo 0.
+                          // Al no tener el requerimiento funcional. Decidi hacer la clase mas simple y usar setSaldo para inicializar un saldo custom.
   }
 
   public void poner(double cuanto) {
@@ -53,13 +54,13 @@ public class Cuenta {
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
-    var movimiento = new Movimiento(fecha, cuanto, esDeposito);
+    var movimiento = new Movimiento(fecha, cuanto, esDeposito); //CODESMELL No hace falta agregar una variable.
     movimientos.add(movimiento);
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
+        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha)) //CODESMELL CODIGO REPETIDO. Cambiar por fueExtraido()
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }

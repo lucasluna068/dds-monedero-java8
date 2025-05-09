@@ -16,7 +16,7 @@ public class MonederoTest {
 
   @BeforeEach
   void init() {
-    cuenta = new Cuenta(0);
+    cuenta = new Cuenta();
   }
 
   @Test

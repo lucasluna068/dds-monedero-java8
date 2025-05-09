@@ -12,6 +12,7 @@ import java.util.List;
 public class Cuenta {
 
   private double saldo = 0;
+  private double limiteBase = 1000;
   private List<Movimiento> movimientos = new ArrayList<>();
 
   // CODESMELL. Se removieron los constructors de CUENTA
@@ -39,11 +40,10 @@ public class Cuenta {
     if (getSaldo() - cuanto < 0) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
-    var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now()); //CODESMELL (Temporary Field) Cacheo de variables cuando pueden ser methods.
-    var limite = 1000 - montoExtraidoHoy;
-    if (cuanto > limite) {
+
+    if (cuanto > limite()) {
       throw new MaximoExtraccionDiarioException(
-          "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite);
+          "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite());
     }
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this); //CODESMELL (Misplaced Method) MISMO CASO EN MOVIMIENTO
   }
@@ -76,4 +76,15 @@ public class Cuenta {
     this.saldo = saldo;
   }
 
+  //CODESMELL (Temporary Field). Se removieron las variables dentro de sacar() debido a que se creaban y utilizaban temporalmente ahi
+  //Se creo un limiteBase seteado en el limite original. Pudiendo modificarse mediante un setter
+  //Ahora limite es calculado mediante la diferencia entre el limite base y el monto extraido del dia.
+
+  public void setLimiteBase(double limiteB) {
+    this.limiteBase = limiteB;
+  }
+
+  public double limite() {
+    return limiteBase - getMontoExtraidoA(LocalDate.now());
+  }
 }

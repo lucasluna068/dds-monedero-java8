@@ -15,7 +15,7 @@ public class Cuenta {
   private List<Movimiento> movimientos = new ArrayList<>();
 
   public Cuenta() {
-    saldo = 0;
+    saldo = 0;  // CODESMELL (Duplicated Code) para que inicializar el saldo en el constructor si ya lo inicializas con saldo 0.
   }
 
   public Cuenta(double montoInicial) {
@@ -33,7 +33,7 @@ public class Cuenta {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this); //CODESMELL (Misplaced Method) MISMO CASO EN MOVIMIENTO
   }
 
   public void sacar(double cuanto) {
@@ -43,13 +43,13 @@ public class Cuenta {
     if (getSaldo() - cuanto < 0) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
-    var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
+    var montoExtraidoHoy = getMontoExtraidoA(LocalDate.now()); //CODESMELL (Temporary Field) Cacheo de variables cuando pueden ser methods.
     var limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
       throw new MaximoExtraccionDiarioException(
           "No puede extraer mas de $ " + 1000 + " diarios, " + "límite: " + limite);
     }
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this); //CODESMELL (Misplaced Method) MISMO CASO EN MOVIMIENTO
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {

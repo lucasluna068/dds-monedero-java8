@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MonederoTest {
@@ -15,13 +16,22 @@ public class MonederoTest {
 
   @BeforeEach
   void init() {
-    cuenta = new Cuenta();
+    cuenta = new Cuenta(0);
   }
 
   @Test
   @DisplayName("Es posible poner $1500 en una cuenta vacía")
   void Poner() {
     cuenta.poner(1500);
+    assertEquals(1500,cuenta.getSaldo());
+  }
+
+  @Test
+  @DisplayName("Es posible poner $500 y sacarlos en una cuenta vacia")
+  void PonerYSacar() {
+    cuenta.poner(500);
+    cuenta.sacar(500);
+    assertEquals(0,cuenta.getSaldo());
   }
 
   @Test
@@ -36,6 +46,7 @@ public class MonederoTest {
     cuenta.poner(1500);
     cuenta.poner(456);
     cuenta.poner(1900);
+    assertEquals(3856,cuenta.getSaldo());
   }
 
   @Test
@@ -72,5 +83,12 @@ public class MonederoTest {
   void ExtraerMontoNegativo() {
     assertThrows(MontoNegativoException.class, () -> cuenta.sacar(-500));
   }
+
+  @Test
+  @DisplayName("No es posible sacar de una cuenta vacia")
+  void SacarCuentaVacia() {
+    assertThrows(SaldoMenorException.class, () -> cuenta.sacar(500));
+  }
+
 
 }

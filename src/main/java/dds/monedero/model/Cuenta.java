@@ -49,8 +49,8 @@ public class Cuenta {
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
-    var movimiento = new Movimiento(fecha, cuanto, esDeposito); //CODESMELL No hace falta agregar una variable.
-    movimientos.add(movimiento);
+    //CODESMELL (Temporary Field) Se removio una variable extra que no era necesaria.
+    movimientos.add(new Movimiento(fecha, cuanto, esDeposito));
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {

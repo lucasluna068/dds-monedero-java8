@@ -14,14 +14,9 @@ public class Cuenta {
   private double saldo = 0;
   private List<Movimiento> movimientos = new ArrayList<>();
 
-  public Cuenta() {
-    saldo = 0;  // CODESMELL (Duplicated Code) para que inicializar un constructor si ya lo inicializas con saldo 0.
-  }
+  // CODESMELL. Se removieron los constructors de CUENTA
+  // Al no tener el requerimiento funcional. Decidi hacer la clase mas simple y usar setSaldo para inicializar un saldo custom.
 
-  public Cuenta(double montoInicial) {
-    saldo = montoInicial; // CODESMELL (Duplicated Code) para que inicializar un constructor si ya lo inicializas con saldo 0.
-                          // Al no tener el requerimiento funcional. Decidi hacer la clase mas simple y usar setSaldo para inicializar un saldo custom.
-  }
 
   public void poner(double cuanto) {
     if (cuanto <= 0) {

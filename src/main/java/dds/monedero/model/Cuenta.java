@@ -55,7 +55,7 @@ public class Cuenta {
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha)) //CODESMELL CODIGO REPETIDO. Cambiar por fueExtraido()
+        .filter(movimiento -> movimiento.fueExtraido(fecha)) //CODESMELL (CODIGO REPETIDO). Se cambio por fueExtraido()
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
